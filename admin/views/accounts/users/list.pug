@@ -17,17 +17,17 @@ block content
           $('#accounts_users_table').DataTable( {
               "processing": true,
               "serverSide": 0,
-              "ajax": "http://localhost:5000/accounts/" + #{account.accountId} + "/users/json",
+              "ajax": "/accounts/" + #{account.accountId} + "/users/json",
               aoColumns: [
                 { mData: 'userId'},
                 { mData: 'name'},
                 { mData: 'email'},
                 { mData: 'phone'},
-                { mData: 'date_created' },
+                { mData: 'dateCreated' },
                 { mData: 'userId' , render : function ( data, type, row, meta ) {
                     return '<div class="col text-center">'+
                           '<a class="btn btn-dark mx-2" href="password/' + data + '">Password</a>' +
-                          '<a class="btn btn-dark" href="profile/' + data + '/">Profile</a>'+
+                          '<a class="btn btn-dark" href="users/' + data + '/">Profile</a>'+
                           '</div>'
                 }}
               ]

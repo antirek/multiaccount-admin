@@ -61,14 +61,14 @@ AccountRoute.get('/:accountId/add', async (req, res) => {
 AccountRoute.post('/:accountId/add', async (req, res) => {
   const userId = await User.count({}) + 1;
   const {accountId} = req.params;
-  const date_created = moment().format('YYYY-MM-DD HH:mm:ss');
+  const dateCreated = moment().format('YYYY-MM-DD HH:mm:ss');
   const {name, email, phone} = req.body;
 
   const user = new User({
     accountId,
     userId,
     name,
-    date_created,
+    dateCreated,
     email,
     phone,
   });
@@ -96,8 +96,9 @@ AccountRoute.get('/:accountId/users/:userId/', async (req, res) => {
 
 AccountRoute.get('/:accountId/users/:userId/avatar', async (req, res) => {
   const {accountId, userId} = req.params;
-  const user = await User.findOne({userId});
-  res.sendFile('/avatar.png');
+  // const user = await User.findOne({userId, accountId});
+  const imgpath = `${uploadPath}/${userId}.png`;
+  res.sendFile(imgpath);
 });
 
 AccountRoute.get('/:accountId/users/:userId/upload', async (req, res) => {
@@ -107,13 +108,13 @@ AccountRoute.get('/:accountId/users/:userId/upload', async (req, res) => {
 
 AccountRoute.post('/:accountId/users/:userId/upload', async (req, res) => {
   const {accountId, userId} = req.params;
-  await console.log(req.files);
-  const imgpath = userId + ".png";
-  req.files.img.mv(uploadPath + imgpath);
+  const imgpath = `${uploadPath}/${userId}.png`;
+  console.log(req.files, {accountId, userId, imgpath});
+  await req.files.avatar.mv(imgpath);
   await User.updateOne({userId}, {
     $set: { imgpath },
   });
-  res.redirect(`/accounts/${accountId}/profile/${userId}`);
+  res.redirect(`/accounts/${accountId}/users/${userId}`);
 });
 
 module.exports = AccountRoute;

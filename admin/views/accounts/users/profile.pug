@@ -6,7 +6,10 @@ block content
     div.card
       h5.text-center.my-2= user.name
       div.card-body.row
-        img.card-img( width='400px' src = "/accounts/" + imgpath)
+        img.card-img(
+          width='400px' 
+          src="/accounts/" + user.accountId + "/users/" + user.userId + '/avatar'
+        )
         div.d-flex.container.justify-content-end
           a.btn.btn-dark.my-3(href="upload/") Upload
         div.d-flex.container.row.justify-content-center
